@@ -20,6 +20,35 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', async () => {
-  return { hello: 'world' }
+Route.group(() => {
+  Route.group(() => {
+    Route.group(() => {
+      Route.get('/', () => {
+        return [
+          {
+            title: 'Frontend Developer',
+            type: 'Remote',
+            created_at: new Date(),
+            description: '',
+            location: 'Belarus',
+            salary: '$50000',
+            company: 'Bridge',
+            skills: 'React',
+          },
+        ]
+      }).as('index')
+
+      Route.get('/:id', () => 'get a single post').as('show')
+      Route.post('/', () => 'creating a post').as('store')
+      Route.put('/:id', () => 'updating a post').as('update')
+      Route.patch('/:id', () => 'partially updating a post').as('add')
+      Route.delete('/:id', () => 'deleting a post').as('destroy')
+    })
+      .prefix('/post')
+      .as('post')
+  })
+    .prefix('/v1')
+    .as('v1')
 })
+  .prefix('/api')
+  .as('api')
